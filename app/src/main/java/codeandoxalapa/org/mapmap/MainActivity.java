@@ -63,15 +63,16 @@ public class MainActivity extends Activity {
 						break;
 					
 					case R.id.UploadButton:
-						
-						if(registered) {
+						Intent uploadIntent = new Intent(MainActivity.this, UploadActivity.class);
+						startActivity(uploadIntent);
+						/*if(registered) {
 							Intent uploadIntent = new Intent(MainActivity.this, UploadActivity.class);
 							startActivity(uploadIntent);
 						}
 						else {
 							Intent regiseterIntent = new Intent(MainActivity.this, RegisterActivity.class);
 							startActivity(regiseterIntent);
-						}
+						}*/
 						
 						break;
 						

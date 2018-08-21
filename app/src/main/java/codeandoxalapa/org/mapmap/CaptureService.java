@@ -398,7 +398,13 @@ public class CaptureService extends Service {
     	@SuppressLint("WrongConstant") PendingIntent pending = PendingIntent.getActivity(getApplicationContext(), 0, contentIntent,
                 android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        Notification notification = new Notification(R.drawable.tray_icon, null, System.currentTimeMillis());
+        //Notification notification = new Notification(R.drawable.tray_icon, null, System.currentTimeMillis());
+		Notification notification = new Notification.Builder(getApplicationContext())
+				.setSmallIcon(R.drawable.tray_icon)
+				.setContentText(null)
+				.setWhen(System.currentTimeMillis())
+				.build();
+
         notification.flags |= Notification.FLAG_ONGOING_EVENT;
     
 
