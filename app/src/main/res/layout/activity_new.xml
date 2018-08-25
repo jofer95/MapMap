@@ -45,7 +45,13 @@
 		         android:textColor="@color/text_color_blue"
 		         style="@style/text_title" />
 
-		     <EditText
+			 <Spinner
+				 android:id="@+id/spnRuta"
+				 android:layout_width="match_parent"
+				 android:entries="@array/rutas"
+				 android:layout_height="wrap_content" />
+
+			 <!--<EditText
 		         android:id="@+id/routeDescription"
 		         android:layout_width="match_parent"
 		         android:layout_height="35dp"
@@ -54,13 +60,14 @@
 		         android:maxLines="1"
 		         android:minLines="1"
 		         android:singleLine="true"
-		         android:textSize="14sp" />
+				 android:visibility="gone"
+		         android:textSize="14sp" />-->
 
 		     <TextView
 		         android:id="@+id/totalPasssengerCount"
 		         android:layout_width="wrap_content"
 		         android:layout_height="wrap_content"
-		         android:text="Notas | OPCIONAL"
+		         android:text="Numero de camion | OPCIONAL"
 		         android:textColor="@color/text_color_blue"
 		         style="@style/text_title" />
 
@@ -73,6 +80,7 @@
 		         android:maxLines="1"
 		         android:minLines="1"
 		         android:singleLine="true"
+				 android:inputType="number"
 		         android:textSize="14sp" />
 
 		     <TextView

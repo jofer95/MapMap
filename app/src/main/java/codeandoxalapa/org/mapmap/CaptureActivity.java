@@ -1,5 +1,6 @@
 package codeandoxalapa.org.mapmap;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import android.os.Bundle;
@@ -19,11 +20,21 @@ import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CaptureActivity extends Activity implements ICaptureActivity {
 	
@@ -279,6 +290,7 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 				Toast.makeText(CaptureActivity.this, "No hay datos almacenados, ruta cancelada.", Toast.LENGTH_SHORT).show();
 			
 			captureService.stopCapture();
+			subirCaptura(captureService.currentCapture);
 		}
 		// else handle 
 		
@@ -304,6 +316,11 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 			captureService.currentCapture.totalPassengerCount--;
 			
 			captureService.currentCapture.alightCount++;
+			try{
+				captureService.subidaBajadaPasajero(0,0,false);
+			}catch (Exception ex){
+				ex.printStackTrace();
+			}
 			updatePassengerCountDisplay();
 		}
 	}
@@ -316,6 +333,11 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 			vibratorService.vibrate(5);
 			
 			captureService.currentCapture.boardCount++;
+			try{
+				captureService.subidaBajadaPasajero(0,0,false);
+			}catch (Exception ex){
+				ex.printStackTrace();
+			}
 			updatePassengerCountDisplay();
 		}
 	}
@@ -458,5 +480,52 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 			else
 				boardingPassengerCount.setText("0");
 		}
+	}
+
+	public void subirCaptura(RouteCapture rutaCapturada){
+		RequestParams params = new RequestParams();
+		Gson gson = new Gson();
+		String json = gson.toJson(rutaCapturada);
+
+		params.put("imei", CaptureService.imei);
+		params.put("data", json);
+
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.setTimeout(240 * 1000);
+		client.setUserAgent("tw");
+		client.post(CaptureService.URL_BASE2 + "upload", params,  new AsyncHttpResponseHandler() {
+
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
+				// TODO Auto-generated method stub
+				/*ProgressBar progressSpinner = (ProgressBar) findViewById(R.id.progressBar);
+				progressSpinner.setVisibility(View.GONE);
+
+				ImageButton uploadButton = (ImageButton) findViewById(R.id.uploadButton);
+				uploadButton.setVisibility(View.VISIBLE);*/
+
+				Toast.makeText(CaptureActivity.this, "Deshabilitado para subir informaciin a Mapaton, revisa tu conexiin a internet.", Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+				// TODO Auto-generated method stub
+				try {
+					captureService.capturing = false;
+					captureService.currentCapture = null;
+					Toast.makeText(CaptureActivity.this, "Data Mapatin cargada.", Toast.LENGTH_SHORT).show();
+				}
+				catch(Exception e) {
+
+					/*ProgressBar progressSpinner = (ProgressBar) findViewById(R.id.progressBar);
+					progressSpinner.setVisibility(View.GONE);
+
+					ImageButton uploadButton = (ImageButton) findViewById(R.id.uploadButton);
+					uploadButton.setVisibility(View.VISIBLE);*/
+
+					Toast.makeText(CaptureActivity.this, "Deshabilitado para subir informaciin a Mapaton, revisa tu conexiin a internet.", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 }

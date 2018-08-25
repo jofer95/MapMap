@@ -42,6 +42,7 @@ public class CaptureService extends Service {
 
 	public final static String 	SERVER 					= "mapaton.org/mapmap";  // 10.0.2.2:9000;
 	public final static String 	URL_BASE 				= "https://" + SERVER +"/";
+	public final static String 	URL_BASE2 				= "https://201.165.0.142:801/pruebas/";
 	
 	public static Boolean boundToService = false;
 	
@@ -199,7 +200,7 @@ public class CaptureService extends Service {
     	if(currentCapture.points.size() > 0) {
     		
 	    	Upload.Route routePb = currentCapture.seralize();
-	    	
+
 	    	File file = new File(getFilesDir(), "route_" + currentCapture.id + ".pb");
 	    	
 	    	FileOutputStream os;
@@ -218,8 +219,8 @@ public class CaptureService extends Service {
 			
     	}
     	
-    	capturing = false;
-    	currentCapture = null;
+    	/*capturing = false;
+    	currentCapture = null;*/
     }
     
     
@@ -420,6 +421,33 @@ public class CaptureService extends Service {
         gpsNotificationManager.cancel(NOTIFICATION_ID);
         stopForeground(true);
     }
+
+	public void subidaBajadaPasajero(int board, int alight, boolean signalStop) throws NoGPSFixException {
+
+		if(lastLocation != null) {
+
+			if(currentStop == null) {
+				currentStop = new RouteStop();
+				currentStop.arrivalTime = SystemClock.elapsedRealtime();
+				currentStop.location = lastLocation;
+			}
+
+			currentStop.alight = alight;
+			currentStop.board = board;
+			currentStop.departureTime = SystemClock.elapsedRealtime();
+			currentStop.signalStop = signalStop;
+
+			Log.i("Transit-flag", "Value: " + currentStop.signalStop);
+
+			//currentCapture.stops.add(currentStop);
+			//currentCapture.signals.add(currentStop);
+			//currentCapture.paradaPasajero.add(currentStop);
+			currentStop = null;
+		}
+		else
+			throw new NoGPSFixException();
+
+	}
 	
 	
 	

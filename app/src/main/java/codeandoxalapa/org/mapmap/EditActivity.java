@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.Spinner;
 
 public class EditActivity extends Activity {
 	
@@ -137,14 +138,15 @@ public class EditActivity extends Activity {
 			   routeImage.pathImage = rc.path;
 			
 			   EditText routeName = (EditText) findViewById(R.id.routeName);
-			   EditText routeDescription = (EditText) findViewById(R.id.routeDescription);
+			   //EditText routeDescription = (EditText) findViewById(R.id.routeDescription);
+			   Spinner routeDescription = (Spinner) findViewById(R.id.spnRuta);
 			   EditText fieldNotes = (EditText) findViewById(R.id.fieldNotes);
 			   EditText routeVehicleCapacity = (EditText) findViewById(R.id.vehicleCapacity);
 			   EditText routeVehicleType = (EditText) findViewById(R.id.vehicleType);
 			   ImageView imagenRoute = (ImageView)findViewById(R.id.imagenBus);
 			
 			   routeName.setText(name);
-			   routeDescription.setText(description);
+			   //routeDescription.setText(description);
 			   fieldNotes.setText(notes);
 			   routeVehicleCapacity.setText(vehicleCapacity);
 			   routeVehicleType.setText(vehicleType);
@@ -208,13 +210,14 @@ public class EditActivity extends Activity {
 				synchronized(this)	{
 					
 					EditText routeName = (EditText) findViewById(R.id.routeName);
-					EditText routeDescription = (EditText) findViewById(R.id.routeDescription);
+					//EditText routeDescription = (EditText) findViewById(R.id.routeDescription);
+					Spinner routeDescription = (Spinner) findViewById(R.id.spnRuta);
 				    EditText fieldNotes = (EditText) findViewById(R.id.fieldNotes);
 				    EditText routeVehicleCapacity = (EditText) findViewById(R.id.vehicleCapacity);
 				    EditText routeVehicleType = (EditText) findViewById(R.id.vehicleType);
 					
 					rcEdit.name = routeName.getText().toString();
-					rcEdit.description = routeDescription.getText().toString();
+					rcEdit.description = routeDescription.getSelectedItem().toString();
 					rcEdit.notes = fieldNotes.getText().toString();
 					rcEdit.vehicleCapacity = routeVehicleCapacity.getText().toString();
 					rcEdit.vehicleType = routeVehicleType.getText().toString();
