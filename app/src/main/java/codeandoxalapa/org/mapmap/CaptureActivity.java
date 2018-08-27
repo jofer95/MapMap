@@ -36,6 +36,8 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import Modelos.CapturaSincronizar;
+
 public class CaptureActivity extends Activity implements ICaptureActivity {
 	
 	private static Intent serviceIntent;
@@ -485,7 +487,9 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 	public void subirCaptura(RouteCapture rutaCapturada){
 		RequestParams params = new RequestParams();
 		Gson gson = new Gson();
-		String json = gson.toJson(rutaCapturada);
+		CapturaSincronizar capturaSincronizar = new CapturaSincronizar();
+		capturaSincronizar = capturaSincronizar.ModeloSincronizar(rutaCapturada);
+		String json = gson.toJson(capturaSincronizar);
 
 		params.put("imei", CaptureService.imei);
 		params.put("data", json);
@@ -493,7 +497,8 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.setTimeout(240 * 1000);
 		client.setUserAgent("tw");
-		client.post(CaptureService.URL_BASE2 + "upload", params,  new AsyncHttpResponseHandler() {
+		//client.post(CaptureService.URL_BASE2 + "upload", params,  new AsyncHttpResponseHandler() {
+		client.post(CaptureService.URL_BASE3 + "guardarDatosMap", params,  new AsyncHttpResponseHandler() {
 
 			@Override
 			public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
@@ -528,4 +533,5 @@ public class CaptureActivity extends Activity implements ICaptureActivity {
 			}
 		});
 	}
+
 }

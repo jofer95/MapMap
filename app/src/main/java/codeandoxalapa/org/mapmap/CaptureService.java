@@ -42,7 +42,8 @@ public class CaptureService extends Service {
 
 	public final static String 	SERVER 					= "mapaton.org/mapmap";  // 10.0.2.2:9000;
 	public final static String 	URL_BASE 				= "https://" + SERVER +"/";
-	public final static String 	URL_BASE2 				= "https://201.165.0.142:801/pruebas/";
+	public final static String 	URL_BASE2 				= "http://201.165.0.142:801/lyfsDesarrollo/api/Pruebas/";
+	public final static String 	URL_BASE3 				= "http://192.168.10.3/lyfsDesarrollo/api/Pruebas/";
 	
 	public static Boolean boundToService = false;
 	

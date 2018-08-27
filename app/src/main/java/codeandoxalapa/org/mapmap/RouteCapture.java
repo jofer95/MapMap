@@ -39,7 +39,7 @@ public class RouteCapture {
 	
 	List<RoutePoint> points = new ArrayList<RoutePoint>();
 	
-	List<RouteStop> stops = new ArrayList<RouteStop>();
+	public List<RouteStop> stops = new ArrayList<RouteStop>();
 	
 	List<RouteStop> signals = new ArrayList<RouteStop>();
 	
